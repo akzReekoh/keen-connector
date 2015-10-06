@@ -1,0 +1,20 @@
+{
+  "project_id": {
+	"label": "Project ID",
+	"type": "String",
+	"required": true,
+	"help": "Specify your Keen.io project ID."
+  },
+  "write_key": {
+	"label": "Write Key",
+	"type": "String",
+	"required": true,
+	"help": "Specify the write key for you Keen.io project."
+  },
+  "collection": {
+	"label": "Collection",
+	"type": "String",
+	"required": true,
+	"help": "Specify the collection where data will be sent to."
+  }
+}
