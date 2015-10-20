@@ -12,6 +12,7 @@
     "url": "https://github.com/Reekoh/keen-connector"
   },
   "dependencies": {
+    "is-json": "^1.2.5",
     "keen-js": "^3.2.7"
   },
   "devDependencies": {
