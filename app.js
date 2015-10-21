@@ -1,6 +1,7 @@
 'use strict';
 
-var platform = require('./platform'),
+var Keen     = require('keen-js'),
+	platform = require('./platform'),
 	keenClient, collection;
 
 /*
@@ -25,11 +26,16 @@ platform.on('data', function (data) {
 });
 
 /*
+ * Event to listen to in order to gracefully release all resources bound to this service.
+ */
+platform.on('close', function () {
+	platform.notifyClose(); // No resources to clean up. Just notify the platform.
+});
+
+/*
  * Listen for the ready event.
  */
 platform.once('ready', function (options) {
-	var Keen = require('keen-js');
-
 	collection = options.collection;
 
 	keenClient = new Keen({
