@@ -1,6 +1,6 @@
 'use strict';
 
-var Keen     = require('keen-js'),
+var _        = require('lodash'),
 	platform = require('./platform'),
 	keenClient, collection;
 
@@ -8,9 +8,7 @@ var Keen     = require('keen-js'),
  * Listen for the data event.
  */
 platform.on('data', function (data) {
-	var isJSON = require('is-json');
-
-	if (isJSON(data, true)) {
+	if (_.isPlainObject(data)) {
 		keenClient.addEvent(collection, data, function (error) {
 			if (error) return platform.handleException(error);
 
@@ -37,6 +35,8 @@ platform.on('close', function () {
  */
 platform.once('ready', function (options) {
 	collection = options.collection;
+
+	var Keen = require('keen-js');
 
 	keenClient = new Keen({
 		projectId: options.project_id,

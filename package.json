@@ -12,8 +12,8 @@
     "url": "https://github.com/Reekoh/keen-connector"
   },
   "dependencies": {
-    "is-json": "^1.2.5",
-    "keen-js": "^3.2.7"
+    "keen-js": "^3.2.7",
+    "lodash": "^3.10.1"
   },
   "devDependencies": {
     "gulp": "^3.9.0",
