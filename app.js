@@ -1,14 +1,14 @@
 'use strict';
 
-var _        = require('lodash'),
-	platform = require('./platform'),
+var platform      = require('./platform'),
+	isPlainObject = require('lodash.isplainobject'),
 	keenClient, collection;
 
 /*
  * Listen for the data event.
  */
 platform.on('data', function (data) {
-	if (_.isPlainObject(data)) {
+	if (isPlainObject(data)) {
 		keenClient.addEvent(collection, data, function (error) {
 			if (error) return platform.handleException(error);
 
