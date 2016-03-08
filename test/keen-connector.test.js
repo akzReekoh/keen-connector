@@ -11,11 +11,12 @@ var cp     = require('child_process'),
 describe('Connector', function () {
 	this.slow(8000);
 
-	after('terminate child process', function () {
+	after('terminate child process', function (done) {
 		this.timeout(5000);
 
 		setTimeout(function () {
 			connector.kill('SIGKILL');
+			done();
 		}, 4000);
 	});
 
@@ -50,7 +51,7 @@ describe('Connector', function () {
 	});
 
 	describe('#data', function (done) {
-		it('should process and send the data to the keen.io collection', function () {
+		it('should process and send the JSON data to the keen.io collection', function () {
 			connector.send({
 				type: 'data',
 				data: {
@@ -58,6 +59,26 @@ describe('Connector', function () {
 					key2: 121,
 					key3: 40
 				}
+			}, done);
+		});
+	});
+
+	describe('#data', function (done) {
+		it('should process and send the Array data to the keen.io collection', function () {
+			connector.send({
+				type: 'data',
+				data: [
+					{
+						key1: 'value1',
+						key2: 121,
+						key3: 40
+					},
+					{
+						key1: 'value1',
+						key2: 121,
+						key3: 40
+					}
+				]
 			}, done);
 		});
 	});
