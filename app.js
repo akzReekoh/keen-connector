@@ -1,38 +1,40 @@
 'use strict';
 
-var platform      = require('./platform'),
+var async         = require('async'),
+	isArray       = require('lodash.isarray'),
+	platform      = require('./platform'),
 	isPlainObject = require('lodash.isplainobject'),
 	keenClient, collection;
 
-/*
- * Listen for the data event.
- */
+let sendData = function (data) {
+	keenClient.addEvent(collection, data, function (error) {
+		if (error) return platform.handleException(error);
+
+		platform.log(JSON.stringify({
+			title: 'Added Keen.io Data',
+			collection: collection,
+			data: data
+		}));
+	});
+};
+
 platform.on('data', function (data) {
 	if (isPlainObject(data)) {
-		keenClient.addEvent(collection, data, function (error) {
-			if (error) return platform.handleException(error);
-
-			platform.log(JSON.stringify({
-				title: 'Added Keen.io Data',
-				collection: collection,
-				data: data
-			}));
+		sendData(data);
+	}
+	else if (isArray(data)) {
+		async.each(data, (datum) => {
+			sendData(datum);
 		});
 	}
 	else
-		platform.handleException(new Error('Invalid data received. ' + data));
+		platform.handleException(new Error('Invalid data received. Must be a valid Array/JSON Object. Data ' + data));
 });
 
-/*
- * Event to listen to in order to gracefully release all resources bound to this service.
- */
 platform.on('close', function () {
 	platform.notifyClose(); // No resources to clean up. Just notify the platform.
 });
 
-/*
- * Listen for the ready event.
- */
 platform.once('ready', function (options) {
 	collection = options.collection;
 
