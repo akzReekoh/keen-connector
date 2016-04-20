@@ -1,11 +1,12 @@
 'use strict';
 
-var _        = require('lodash'),
-	platform = require('./platform'),
-	async = require('async'),
+var async         = require('async'),
+	isArray       = require('lodash.isarray'),
+	platform      = require('./platform'),
+	isPlainObject = require('lodash.isplainobject'),
 	keenClient, collection;
 
-let sendData = (data) => {
+let sendData = function (data) {
 	keenClient.addEvent(collection, data, function (error) {
 		if (error) return platform.handleException(error);
 
@@ -18,10 +19,10 @@ let sendData = (data) => {
 };
 
 platform.on('data', function (data) {
-	if (_.isPlainObject(data)) {
+	if (isPlainObject(data)) {
 		sendData(data);
 	}
-	else if(_.isArray(data)){
+	else if (isArray(data)) {
 		async.each(data, (datum) => {
 			sendData(datum);
 		});
