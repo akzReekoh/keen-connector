@@ -8,16 +8,15 @@ var async         = require('async'),
 
 let sendData = function (data, callback) {
 	keenClient.addEvent(collection, data, function (error) {
-        if(error)
-            callback(error);
-        else {
+        if(!error) {
             platform.log(JSON.stringify({
                 title: 'Added Keen.io Data',
                 collection: collection,
                 data: data
             }));
-            callback();
         }
+
+        callback(error);
 	});
 };
 
