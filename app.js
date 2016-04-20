@@ -16,6 +16,7 @@ let sendData = function (data, callback) {
                 collection: collection,
                 data: data
             }));
+            callback();
         }
 	});
 };
