@@ -6,26 +6,32 @@ var async         = require('async'),
 	isPlainObject = require('lodash.isplainobject'),
 	keenClient, collection;
 
-let sendData = function (data) {
+let sendData = function (data, callback) {
 	keenClient.addEvent(collection, data, function (error) {
-		if (error) return platform.handleException(error);
+        if(!error) {
+            platform.log(JSON.stringify({
+                title: 'Added Keen.io Data',
+                collection: collection,
+                data: data
+            }));
+        }
 
-		platform.log(JSON.stringify({
-			title: 'Added Keen.io Data',
-			collection: collection,
-			data: data
-		}));
+        callback(error);
 	});
 };
 
 platform.on('data', function (data) {
 	if (isPlainObject(data)) {
-		sendData(data);
+		sendData(data, (error) => {
+            if (error) platform.handleException(error);
+		});
 	}
 	else if (isArray(data)) {
-		async.each(data, (datum) => {
-			sendData(datum);
-		});
+		async.each(data, (datum, done) => {
+			sendData(datum, done);
+		}, (error) => {
+            if (error) platform.handleException(error);
+        });
 	}
 	else
 		platform.handleException(new Error('Invalid data received. Must be a valid Array/JSON Object. Data ' + data));
