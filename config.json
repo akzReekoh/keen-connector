@@ -1,11 +1,12 @@
 {
-  "project_id": {
+  "projectId": {
 	"label": "Project ID",
 	"type": "String",
 	"required": true,
-	"help": "Specify your Keen.io project ID."
+	"help": "Specify your Keen.io project ID.",
+    "maxLength": 50
   },
-  "write_key": {
+  "writeKey": {
 	"label": "Write Key",
 	"type": "String",
 	"required": true,
@@ -15,6 +16,7 @@
 	"label": "Collection",
 	"type": "String",
 	"required": true,
-	"help": "Specify the collection where data will be sent to."
+	"help": "Specify the collection where data will be sent to.",
+    "maxLength": 50
   }
 }
