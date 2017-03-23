@@ -1,0 +1,37 @@
+---
+version: 1.0.0 # So we could parse new versions of the manifest without dropping support for older ones. The CLI should be able to parse the YAML file based on the version
+kind: Plugin # We will add other objects that can be uploaded in the registry like: Add-ons, full-blown applications, bots and others TBD
+metadata:
+  name: keen-connector
+  description: Keen.io Connector Plugin for the Reekoh IoT Platform. Integrates a Reekoh instance with a Keen.io account to synchronize device data. Device data can then be analyzed through Keen.io's analytics service.
+  documentation: ./README.md
+  icon: ./keen.png
+  signupLink:
+  type: Connector
+  price: 0
+  tags:
+    - keen
+    - analytics
+  config:
+    projectId:
+      label: Project ID
+      type: String
+      required: true
+      help: Specify your Keen.io project ID.
+      maxLength: 1000
+    writeKey:
+      label: Write Key
+      type: String
+      required: true
+      help: Specify the write key for you Keen.io project.
+      maxLength: 1000
+    collection:
+      label: Collection
+      type: String
+      required: true
+      help: Specify the collection where data will be sent to.
+      maxLength: 1000
+  release:
+    version: 1.0.0
+    notes: path/to/RELEASENOTESv1.0.0.md
+    image: path/to/docker/image
